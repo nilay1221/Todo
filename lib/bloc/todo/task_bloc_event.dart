@@ -82,3 +82,5 @@ class TaskComplete extends TaskBlocEvent{
   }
 
 }
+
+  class ClearCompleted extends TaskBlocEvent{}

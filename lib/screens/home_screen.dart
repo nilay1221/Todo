@@ -1,6 +1,11 @@
 
+import 'package:flare_flutter/asset_provider.dart';
+import 'package:flare_flutter/flare_cache.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:todo_bloc/bloc/bloc.dart' ;
 import 'package:todo_bloc/models/sort.dart';
 import 'package:todo_bloc/widgets/widgets.dart';
@@ -10,12 +15,23 @@ class HomeScreem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Tasks"),
+    return BlocBuilder<ThemeBloc,ThemeState>(
+      builder: (context, themeState) {
+        if(themeState is ThemeInitial)
+        {
+          return Loading();
+        }
+        final theme = (themeState as ThemeLoaded);
+         return Scaffold(
+      appBar: AppBar(title: Text("Tasks",style: GoogleFonts.montserrat(textStyle: TextStyle(color:theme.font_color,))),
+      centerTitle: true,
+      elevation: 3,
       actions: <Widget>[
         Options(),
       ],
+      backgroundColor: theme.sacffold_color,
       ),
+      backgroundColor: theme.sacffold_color,
       body: BlocBuilder<SortBloc,SortState>(
         builder: (context,state) {
             if(state is SortLoad) {
@@ -45,7 +61,7 @@ class HomeScreem extends StatelessWidget {
                 physics: ScrollPhysics(),
                 child: Column(children: <Widget>[
                   ExpandedTile(title: 'Uncompleted Tasks',list: state.uncompleted,),
-                  ExpandedTile(title: 'Completed Tasks',list: state.completed)
+                  ExpandedTile(title: 'Completed',list: state.completed)
                 ],),
               );
               }
@@ -101,6 +117,8 @@ class HomeScreem extends StatelessWidget {
         },
         child: Icon(Icons.add),
       ),
+    );
+      }
     );
   }
 }

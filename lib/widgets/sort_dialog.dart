@@ -13,9 +13,10 @@ class _SortDialogState extends State<SortDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       title: Text("Sort"),
       content: Container(
-        height: 200.0,
+        height: 170.0,
         width: 250.0,
         child: ListView.builder(
           itemCount: widget.sortOptions.length,

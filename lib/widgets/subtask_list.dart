@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:todo_bloc/bloc/bloc.dart';
 import 'package:todo_bloc/models/todo.dart';
 
 class SubTaskList extends StatelessWidget {
@@ -14,6 +17,7 @@ class SubTaskList extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final theme = (BlocProvider.of<ThemeBloc>(context).state as ThemeLoaded);
     return ListView.builder(
       itemCount: subtasks.length,
       shrinkWrap: true,
@@ -24,13 +28,13 @@ class SubTaskList extends StatelessWidget {
           children: <Widget>[
             subtasks[index].status == false
                 ? IconButton(
-                    icon: Icon(Icons.check_box_outline_blank),
+                    icon: Icon(Icons.radio_button_unchecked,color: Colors.grey,),
                     onPressed: () {
                       callback(subtasks[index].id);
                     },
                   )
                 : IconButton(
-                    icon: Icon(Icons.done,color: Colors.grey,),
+                    icon: Icon(MdiIcons.checkboxMarkedCircleOutline,color: Colors.grey,),
                     onPressed: () {
                       callback(subtasks[index].id);
                     },
@@ -41,18 +45,19 @@ class SubTaskList extends StatelessWidget {
             Expanded(
               child: TextFormField(
                 key: UniqueKey(),
+                autofocus: index == subtasks.length -1 ? true : false,
                 initialValue: subtasks[index].name,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                 ),
-                style: subtasks[index].status? TextStyle(color: Colors.grey) : TextStyle(color: Colors.black),
+                style: subtasks[index].status? TextStyle(color: Colors.grey) : TextStyle(color: theme.font_color),
                 onChanged: (value) {
                   setName(subtasks[index].id,value);
                 },
               ),
             ),
             IconButton(
-              icon: Icon(Icons.clear),
+              icon: Icon(Icons.clear,color: Colors.grey,),
               onPressed: () {
                 delete(subtasks[index].id);
               },

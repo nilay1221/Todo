@@ -2,6 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:flare_flutter/asset_provider.dart';
+import 'package:flare_flutter/flare_cache.dart';
+import 'package:flare_flutter/provider/asset_flare.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:meta/meta.dart';
 import 'package:todo_bloc/bloc/bloc.dart';
 import 'package:todo_bloc/models/todo.dart';
@@ -40,11 +45,23 @@ class TaskBlocBloc extends Bloc<TaskBlocEvent, TaskBlocState> {
     if(event is TaskUpdate) {
       yield* _mapTaskUpdatetoState(event);
     }
+    if(event is ClearCompleted) {
+      yield * _mapClearCompletedtoState();
+    }
 
   }
 
+    final AssetProvider assetProvider =
+    AssetFlare(bundle: rootBundle, name: 'assets/test_2.flr');
+
+Future<void> _warmupAnimations() async {
+  await cachedActor(assetProvider);
+}
+
+
   Stream<TaskBlocState> _mapTaskLoadtoState() async* {
      List<Task> tasks = await dbHelper.loadTasks();
+     await _warmupAnimations();
      yield TaskBlocLoaded(tasks: tasks);
   }
 
@@ -94,6 +111,16 @@ class TaskBlocBloc extends Bloc<TaskBlocEvent, TaskBlocState> {
         yield TaskBlocLoaded(tasks: updatedTasks);
 
       }
+    }
+
+    Stream<TaskBlocState> _mapClearCompletedtoState() async* {
+      if(state is TaskBlocLoaded) {
+        await dbHelper.deleteCompleted();
+        final List<Task> updatedTasks = (state as TaskBlocLoaded).tasks.where((task) => task.status == false).toList();
+        yield TaskBlocLoaded(tasks: updatedTasks);
+        
+      }
+ 
     }
 
 

@@ -31,7 +31,7 @@ class DbHelper{
     Directory appdir = await getApplicationDocumentsDirectory();
     print(appdir);
     String path = join(appdir.path,DBNAME);
-    var db = openDatabase(path,version: 1,onCreate: _onCreate);
+    var db = openDatabase(path,version: 1,onCreate: _onCreate,onConfigure: _onConfigure);
     return db;
   }
 
@@ -49,11 +49,15 @@ class DbHelper{
         CREATE TABLE $TABLENAME2(
           $task_id integer,
           $task_name varchar(255),
-          $task_status INTEGER DEFAULT 0
+          $task_status INTEGER DEFAULT 0,
+          FOREIGN KEY ($task_id) REFERENCES $TABLENAME1($task_id) ON DELETE CASCADE
         );
       """);
 }
 
+_onConfigure(Database db) async {
+  await db.execute("PRAGMA foreign_keys = ON");
+}
 
  Future<Task> createTask(Map data) async {
    var dbClient = await db;
@@ -80,6 +84,11 @@ class DbHelper{
      batch.insert(TABLENAME2, task.subtasktoMap(subtask));
    }
    await batch.commit(noResult: true); 
+ }
+
+ Future<void> deleteCompleted() async {
+   var dbClient = await db;
+   await dbClient.delete(TABLENAME1,where: '$task_status = 1');
  }
 
  Future<List<Task>> loadTasks() async {

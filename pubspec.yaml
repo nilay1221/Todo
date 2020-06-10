@@ -28,6 +28,8 @@ dependencies:
   flutter_bloc: ^4.0.0
   material_design_icons_flutter: ^4.0.5345
   flare_flutter: ^2.0.3
+  google_fonts: ^1.1.0
+  shared_preferences: ^0.5.7+3
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -52,7 +54,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/logo.jpg
-    - assets/test.flr
+    - assets/test_2.flr
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

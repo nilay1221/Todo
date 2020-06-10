@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:todo_bloc/bloc/bloc.dart';
+import 'package:todo_bloc/models/theme.dart';
 import 'package:todo_bloc/models/todo.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_bloc/widgets/widgets.dart';
@@ -47,6 +50,7 @@ class _TaskEditState extends State<TaskEdit> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = (BlocProvider.of<ThemeBloc>(context).state as ThemeLoaded);
     return WillPopScope(
           onWillPop: () async{
             BlocProvider.of<TaskBlocBloc>(context).add(TaskUpdate(task: task));
@@ -55,11 +59,11 @@ class _TaskEditState extends State<TaskEdit> {
           child: Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: theme.sacffold_color,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
-              color: Colors.black,
+              color: theme.font_color,
             ),
             onPressed: () async {
               BlocProvider.of<TaskBlocBloc>(context).add(TaskUpdate(task: task));
@@ -69,8 +73,8 @@ class _TaskEditState extends State<TaskEdit> {
           actions: <Widget>[
             IconButton(
               icon: Icon(
-                Icons.delete,
-                color: Colors.black,
+                MdiIcons.trashCanOutline,
+                color: theme.font_color,
               ),
               onPressed: () async {
                 BlocProvider.of<TaskBlocBloc>(context).add(TaskDelete(task: task));
@@ -79,10 +83,10 @@ class _TaskEditState extends State<TaskEdit> {
             ),
           ],
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: theme.sacffold_color,
         body: SingleChildScrollView(
                 child: Container(
-            color: Colors.white,
+            color: theme.sacffold_color,
             child: Column(
               children: <Widget>[
                 Padding(
@@ -90,19 +94,19 @@ class _TaskEditState extends State<TaskEdit> {
                   child: TextFormField(
                     initialValue: '${task.name[0].toUpperCase()}${task.name.substring(1)}',
                     decoration: InputDecoration(border: InputBorder.none),
-                    style: TextStyle(
+                    style: GoogleFonts.sourceSansPro(textStyle: TextStyle(
                         fontSize: 30.0,
-                        color: Colors.black,
+                        color: theme.font_color,
                         decoration: task.status
                             ? TextDecoration.lineThrough
-                            : TextDecoration.none),
+                            : TextDecoration.none),),
                         onChanged: (value) {
                           task.name = value;
                         },
                   ),
                 ),
                 ListTile(
-                  leading: Icon(Icons.event_available),
+                  leading: Icon(Icons.event_available,color: Colors.grey,),
                   title: Container(
                       height: 40.0,
                       decoration: BoxDecoration(
@@ -114,12 +118,14 @@ class _TaskEditState extends State<TaskEdit> {
                             child: Text(
                                 "${DateFormat('E, MMM d').format(_date)}",
                                 textAlign: TextAlign.left,
+                                style: TextStyle(color: theme.font_color),
                               ),
                           )
                           : FlatButton(
                               child: Text(
                                 "${DateFormat('E, MMM d').format(_date)}",
                                 textAlign: TextAlign.left,
+                                style: GoogleFonts.sourceSansPro(textStyle: TextStyle(color: theme.font_color,fontSize: 15.0)),
                               ),
                               onPressed: () {
                                 showDatePicker(
@@ -140,7 +146,7 @@ class _TaskEditState extends State<TaskEdit> {
                             )),
                 ),
                 ListTile(
-                  leading: Icon(Icons.subdirectory_arrow_right),
+                  leading: Icon(Icons.subdirectory_arrow_right,color: Colors.grey,),
                   title: Container(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -172,6 +178,7 @@ class _TaskEditState extends State<TaskEdit> {
                               child: Text(
                                 "Add subtask",
                                 textAlign: TextAlign.left,
+                                style: GoogleFonts.sourceSansPro(textStyle: TextStyle(color: theme.font_color,fontSize: 15.0)),
                               )),
                         
                         ),
@@ -184,7 +191,7 @@ class _TaskEditState extends State<TaskEdit> {
           ),
         ),
         floatingActionButton: RaisedButton(
-            color: Colors.white,
+            color: theme.choice == ThemeChoice.dark ? Colors.grey[850]:Colors.white,
             padding: EdgeInsets.all(15.0),
             textColor: Colors.blue[600],
             elevation: 5,
