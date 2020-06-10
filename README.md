@@ -1,16 +1,48 @@
-# todo_bloc
+# Todo
 
-A new Flutter project.
+Todo application made using Flutter and implements BLOC using flutter_bloc library.
+
+## Features
+
+- Add , Edit and Delete Task
+- Add , Edit and Delete Subtasks
+- Sort by Date , Priority
+- Theme Support
+
+## Screenshots
+
+<div style="text-align: center">
+  <table>
+    <tr>
+      <td style="text-align: center">
+        <img src="./screenshots/1.jpeg" width="200" />
+      </td>
+      <td style="text-align: center">
+        <img src="./screenshots/2.jpeg" width="200" />
+      </td>
+      <td style="text-align: center">
+        <img src="./screenshots/3.jpeg" width="200" />
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align: center">
+        <img src="./screenshots/4.jpeg" width="200" />
+      </td>
+      <td style="text-align: center">
+        <img src="./screenshots/5.jpeg" width="200" />
+      </td>
+      <td style="text-align: center">
+        <img src="./screenshots/6.jpeg" width="200" />
+      </td>
+    </tr>
+  </table>
+</div>
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+git clone https://github.com/nilay1221/Todo.git
+cd todo
+flutter packages get
+flutter run
+```
